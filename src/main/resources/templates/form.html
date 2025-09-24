@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Goalify</title>
+</head>
+<body>
+
+<nav class="navbar bg-base-300 shadow-sm">
+    <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Goalify</a>
+    </div>
+    <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+            <li>
+                <details>
+                    <summary>🌎</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2">
+                        <li><a>🇧🇷</a></li>
+                        <li><a>🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<main class="grid place-items-center gap-4 p-8">
+    <form class="w-full max-w-md" method="post" th:object="${goal}">
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{title}"></legend>
+            <input th:field="*{title}" th:errorclass="input-error" type="text" class="input" />
+            <p class="label text-error" th:errors="*{title}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{description}"></legend>
+            <textarea th:field="*{description}" th:errorclass="textarea-error" class="textarea" ></textarea>
+            <p class="label text-error" th:errors="*{description}"></p>
+        </fieldset>
+
+        <fieldset class="fieldset">
+            <legend class="fieldset-legend" th:text="#{effort}"></legend>
+            <input th:field="*{effort}" id="score-range" type="range" min="0" max="100" class="range range-primary" />
+            <p id="score-label" class="label" th:text="*{effort}"></p>
+        </fieldset>
+
+        <div class="space-x-4">
+            <a href="/task" class="btn btn-neutral" th:text="#{cancel}"></a>
+            <button class="btn btn-primary" th:text="#{save}"></button>
+        </div>
+
+    </form>
+</main>
+
+<script>
+    document.querySelector("#score-range").addEventListener("input", e => {
+        document.querySelector("#score-label").textContent = e.target.value
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dracula">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <meta charset="UTF-8">
+    <title>Goalify</title>
+</head>
+<body>
+
+<nav class="navbar bg-base-300 shadow-sm">
+    <div class="flex-1">
+        <a class="btn btn-ghost text-xl">Goalify</a>
+    </div>
+    <div class="flex-none">
+        <ul class="menu menu-horizontal px-1">
+            <li>
+                <details>
+                    <summary>🌎</summary>
+                    <ul class="bg-base-100 rounded-t-none p-2">
+                        <li><a href="?lang=pt_BR">🇧🇷</a></li>
+                        <li><a href="?lang=en_US">🏴󠁧󠁢󠁥󠁮󠁧󠁿</a></li>
+                    </ul>
+                </details>
+            </li>
+        </ul>
+        <div class="dropdown dropdown-end">
+            <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+                <div class="w-10 rounded-full">
+                    <img
+                            alt="avatar do usuário"
+                            th:src="${user.attributes.avatar_url}" />
+                </div>
+            </div>
+            <ul
+                    tabindex="0"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                <li>
+                    <a class="justify-between" th:text="${user.attributes.email}"></a>
+                </li>
+                <li><a href="/logout">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<a href="/goal/form" class="btn btn-primary">Nova Meta</a>
+
+<div th:if="${message}" role="alert" class="alert alert-success alert-soft m-4">
+    <span th:text="${message}"></span>
+</div>
+
+<main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-4 p-8">
+    <div th:each="goal : ${goals}" class="card card-border bg-base-300 w-96">
+        <div th:text="${goal.effort}" class="badge badge-accent m-4"></div>
+
+        <div class="card-body items-center">
+            <h2 th:text="${goal.title}" class="card-title"></h2>
+            <p th:text="${goal.description}" ></p>
+            <div th:text="${goal.status + '%'}"
+                 class="radial-progress bg-secondary text-secondary-content border-secondary border-4"
+                 th:style="${'--value:' + goal.status}" th:aria-valuenow="${goal.status}" role="progressbar">
+            </div>
+        </div>
+
+        <div class="card-actions justify-end m-4">
+            <button class="btn btn-primary">apagar</button>
+        </div>
+    </div>
+</main>
+</body>
+</html>
