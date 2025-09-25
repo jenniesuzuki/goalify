@@ -29,7 +29,7 @@
 </nav>
 
 <main class="grid place-items-center gap-4 p-8">
-    <form class="w-full max-w-md" method="post" th:object="${goal}">
+    <form class="w-full max-w-md" method="post" th:object="${goal}" th:action="${'/goal/form'}">
         <fieldset class="fieldset">
             <legend class="fieldset-legend" th:text="#{title}"></legend>
             <input th:field="*{title}" th:errorclass="input-error" type="text" class="input" />

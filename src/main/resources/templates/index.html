@@ -52,7 +52,12 @@
 </div>
 
 <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-4 p-8">
-    <div th:each="goal : ${goals}" class="card card-border bg-base-300 w-96">
+    <div th:each="goal : ${goals}" class="card card-border bg-base-300 w-96 relative">
+        <div th:if="${goal.user}" class="avatar absolute top-4 right-4">
+            <div class="w-12 rounded-full">
+                <img th:src="${goal.user.avatarUrl}" th:title="${goal.user.name}" />
+            </div>
+        </div>
         <div th:text="${goal.effort}" class="badge badge-accent m-4"></div>
 
         <div class="card-body items-center">
@@ -65,7 +70,34 @@
         </div>
 
         <div class="card-actions justify-end m-4">
-            <button class="btn btn-primary">apagar</button>
+            <form method="post" th:action="${'/goal/dec/' + goal.id}">
+                <input type="hidden" name="_method" value="PUT" />
+                <button class="btn btn-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                </button>
+            </form>
+            <form method="post" th:action="${'/goal/inc/' + goal.id}">
+                <input type="hidden" name="_method" value="PUT" />
+                <button class="btn btn-info">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right-icon lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+            </form>
+            <form th:if="${goal.user == null}" method="post" th:action="${'/goal/pick/' + goal.id}">
+                <input type="hidden" name="_method" value="PUT" />
+                <button class="btn btn-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hand-icon lucide-hand"><path d="M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+                </button>
+            </form>
+            <form th:if="${goal.user != null}" method="post" th:action="${'/goal/drop/' + goal.id}">
+                <input type="hidden" name="_method" value="PUT" />
+                <button class="btn btn-warning">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hand-grab-icon lucide-hand-grab"><path d="M18 11.5V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v1.4"/><path d="M14 10V8a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2"/><path d="M10 9.9V9a2 2 0 0 0-2-2a2 2 0 0 0-2 2v5"/><path d="M6 14a2 2 0 0 0-2-2a2 2 0 0 0-2 2"/><path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-4a8 8 0 0 1-8-8 2 2 0 1 1 4 0"/></svg>
+                </button>
+            </form>
+            <form method="post" th:action="${'/goal/' + goal.id}">
+                <input type="hidden" name="_method" value="DELETE" />
+                <button class="btn btn-primary" th:text="#{delete}"></button>
+            </form>
         </div>
     </div>
 </main>
